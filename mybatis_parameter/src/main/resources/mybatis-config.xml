@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"/>
+
+    <!--为某个类型设置别名-->
+    <typeAliases>
+        <package name="com.atguigu.mybatis.pojo"/>
+
+    </typeAliases>
+
+    <!-- 配置连接数据库的环境
+        default:设置默认使用的环境的id
+     -->
+    <environments default="development">
+
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!-- 连接数据库的url地址 -->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.name}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 引入mybatis的映射文件 -->
+    <mappers>
+        <package name="com.atguigu.mybatis.mapper"/>
+    </mappers>
+</configuration>

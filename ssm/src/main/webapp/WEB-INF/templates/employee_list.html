@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>员工列表</title>
+</head>
+<body>
+<div style="text-align: center" id="app">
+    <table border="1" style="margin-left: auto; margin-right: auto">
+        <tr>
+            <th colspan="6">员工列表</th>
+        </tr>
+        <tr>
+            <th>流水号</th>
+            <th>员工姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>邮箱</th>
+            <th>操作(
+                <a th:href="@{/to/add}">添加</a>
+                )</th>
+        </tr>
+        <tr th:each="employee,status : ${page.list}">
+            <td th:text="${status.count}">流水号</td>
+            <td th:text="${employee.empName}"></td>
+            <td th:text="${employee.age}">年龄</td>
+            <td th:text="${employee.gender}">性别</td>
+            <td th:text="${employee.email}">邮箱</td>
+            <td>
+                <a th:href="@{'/employee/'+${employee.empId}}">修改</a>
+                <a @click="deleteEmployee()" th:href="@{'/employee/'+${employee.empId}}">删除</a>
+            </td>
+        </tr>
+    </table>
+    <div>
+        <a th:if="${page.hasPreviousPage}" th:href="@{/employee/page/1}">首页</a>
+        <a th:if="${page.hasPreviousPage}" th:href="@{'/employee/page/' + ${page.prePage}}">上一页</a>
+        <span th:each="num : ${page.navigatepageNums}">
+            <a th:if="${num == page.pageNum}" th:text="'[' + ${num} + ']'" th:href="@{'/employee/page/' + ${num}}"></a>
+            <a th:if="${num != page.pageNum}" th:text="${num}" th:href="@{'/employee/page/' + ${num}}"></a>
+        </span>
+        <a th:if="${page.hasNextPage}" th:href="@{'/employee/page/' + ${page.nextPage}}">下一页</a>
+        <a th:if="${page.hasNextPage}" th:href="@{'/employee/page/' + ${page.pages}}">尾页</a>
+    </div>
+
+    <form method="post">
+        <input type="hidden" name="_method" value="delete">
+    </form>
+</div>
+
+<script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
+<script>
+    var vue = new Vue({
+        el:"#app",
+        methods:{
+            deleteEmployee(){
+                // 获取form表单
+                var form = document.getElementsByTagName("form")[0];
+                // 将超链接的href的属性值给form表单的action属性
+                // event.target表示当前触发事件的标签
+                form.action = event.target.href;
+                // 提交表单
+                form.submit();
+                // 阻止超链接的默认行为
+                event.preventDefault();
+            }
+        }
+    });
+</script>
+</body>
+</html>

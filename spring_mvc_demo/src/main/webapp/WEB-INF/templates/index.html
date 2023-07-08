@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+    <h1>index.html</h1>
+    <a th:href="@{/hello}">测试</a>
+    <br>
+    <a th:href="@{/abc}">测试RequestMapping的value属性</a>
+    <br>
+    <form th:action="@{/hello}" th:method="post">
+        <input type="submit" value="测试RequestMapping的method属性">
+    </form>
+    <br>
+    <a th:href="@{/hello(username='123')}">测试RequestMapping的params属性</a>
+    <br>
+    <a th:href="@{/aac/test/ant}">测试RequestMapping的params属性</a>
+    <br>
+    <a th:href="@{/test/rest/cml/1}">测试RequestMapping注解的value属性中的占位符</a><br>
+
+    <hr>
+    <form th:action="@{/param/servletAPI}" method="post">
+        用户名：<input type="text" name="username"> <br>
+        密码：<input type="password" name="password"> <br>
+        <input type="submit" value="登录"> <br>
+    </form>
+
+    <form th:action="@{/pojo}" method="post">
+        用户名：<input type="text" name="username"> <br>
+        密码：<input type="password" name="password"> <br>
+        <input type="submit" value="登录"> <br>
+    </form>
+    <hr>
+
+    <a th:href="@{/test/scope}">测试通过ModelAndView向请求域共享数据</a><br>
+    <a th:href="@{/test/session}">测试向会话域共享数据</a><br>
+    <a th:href="@{/test/application}">测试向应用域共享数据</a><br>
+
+    <hr>
+    <a th:href="@{/test/view/thymeleaf}">测试SpringMVC的视图：Thymeleaf</a>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="studentOne" class="com.atguigu.spring.pojo.Student"></bean>
+
+    <bean id="studentTwo" class="com.atguigu.spring.pojo.Student">
+        <property name="sid" value="123"></property>
+        <property name="age" value="20"></property>
+        <property name="gender" value="男"></property>
+        <property name="sname" value="张三"></property>
+    </bean>
+
+    <bean id="studentThree" class="com.atguigu.spring.pojo.Student">
+        <constructor-arg name="sid" value="1234"></constructor-arg>
+        <constructor-arg name="sname" value="李四"></constructor-arg>
+        <constructor-arg name="gender" value="女"></constructor-arg>
+        <constructor-arg name="age" value="20"></constructor-arg>
+    </bean>
+
+    <bean id="studentFour" class="com.atguigu.spring.pojo.Student">
+        <property name="sid" value="123"></property>
+        <property name="age" value="20"></property>
+        <property name="gender">
+            <null />
+        </property>
+<!--        <property name="sname" value="&lt;王五&gt;"></property>-->
+        <property name="sname">
+            <value><![CDATA[<王五>]]></value>
+        </property>
+    </bean>
+
+    <bean id="clazz" class="com.atguigu.spring.pojo.Clazz">
+        <property name="cid" value="1"></property>
+        <property name="cname" value="一班"></property>
+<!--        <property name="students">-->
+<!--            <list>-->
+<!--                <ref bean="studentOne"></ref>-->
+<!--                <ref bean="studentFive"></ref>-->
+<!--            </list>-->
+<!--        </property>-->
+        <property name="students" ref="studentList"></property>
+    </bean>
+
+    <bean id="studentFive" class="com.atguigu.spring.pojo.Student">
+        <property name="sid" value="1004"></property>
+        <property name="sname" value="赵六"></property>
+        <property name="age" value="26"></property>
+        <property name="gender" value="男"></property>
+
+        <property name="clazz">
+            <bean id="clazzInner" class="com.atguigu.spring.pojo.Clazz">
+                <property name="cid" value="2222"></property>
+                <property name="cname" value="二班"></property>
+            </bean>
+        </property>
+
+        <property name="hobby">
+            <array>
+                <value>唱</value>
+                <value>跳</value>
+                <value>rap</value>
+                <value>篮球</value>
+            </array>
+        </property>
+
+        <property name="teacherMap">
+<!--            <map>-->
+<!--                <entry key="math" value-ref="teacherOne"></entry>-->
+<!--                <entry key="enghlish" value-ref="teacherTwo"></entry>-->
+<!--            </map>-->
+            <util:map id="teacherMap"></util:map>
+        </property>
+
+    </bean>
+
+    <util:map id="teacherMap">
+        <entry key="math" value-ref="teacherOne"></entry>
+        <entry key="enghlish" value-ref="teacherTwo"></entry>
+    </util:map>
+
+    <util:list id="studentList">
+        <ref bean="studentOne"></ref>
+        <ref bean="studentTwo"></ref>
+        <ref bean="studentFive"></ref>
+    </util:list>
+
+    <bean id="teacherOne" class="com.atguigu.spring.pojo.Teacher">
+        <property name="tid" value="10086"></property>
+        <property name="tname" value="数学老师"></property>
+    </bean>
+
+    <bean id="teacherTwo" class="com.atguigu.spring.pojo.Teacher">
+        <property name="tid" value="10085"></property>
+        <property name="tname" value="英语老师"></property>
+    </bean>
+
+
+    <bean id="studentSix" class="com.atguigu.spring.pojo.Student"
+    p:sid="1005" p:sname="小米" p:teacherMap-ref="teacherMap"></bean>
+
+</beans>

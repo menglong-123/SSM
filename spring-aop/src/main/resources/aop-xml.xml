@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.atguigu.spring.aop.xml"/>
+    <aop:config>
+        <aop:pointcut id="pointcut" expression="execution(* com.atguigu.spring.aop.xml.CalculatorImpl.*(..))"/>
+        <aop:aspect id="logger" ref="loggerAspect" order="2">
+            <aop:before method="beforeAdviceMethod" pointcut-ref="pointcut"/>
+            <aop:after method="afterAdviceMethod" pointcut-ref="pointcut" />
+            <aop:after-returning method="afterReturningAdviceMethod" pointcut-ref="pointcut" returning="result"/>
+            <aop:after-throwing method="afterThrowingAdviceMethod" pointcut-ref="pointcut" throwing="except"/>
+        </aop:aspect>
+
+        <aop:aspect id="valid" ref="validateAspect" order="1">
+            <aop:before method="beforeMethod" pointcut-ref="pointcut" />
+        </aop:aspect>
+    </aop:config>
+</beans>

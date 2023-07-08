@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.mybatis.mapper.SpecialSQLMapper">
+
+    <select id="getUserByLike" resultType="User">
+<!--        select * from t_user where username like '%${mohu}%'-->
+<!--        select * from t_user where username like concat('%', #{mohu}, '%')-->
+        select * from t_user where username like "%" #{mohu} "%"
+    </select>
+
+    <select id="deleteMoreUser">
+        delete from t_user where id in (${ids})
+    </select>
+
+    <select id="getUserList" resultType="User">
+        select * from ${tableName}
+    </select>
+
+<!--    useGeneratedKeys表示使用了自增的主键
+        keyProperty表示将添加数据的自增主键赋值给实体类对象的id属性
+-->
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user values(null, #{username}, #{password}, #{age}, #{gender}, #{email})
+    </insert>
+</mapper>

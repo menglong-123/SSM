@@ -1,0 +1,7 @@
+# 项目排除路径
+/mybaits_dynamicSQL/target/
+/mybatis_chche/target/
+/mybatis_mbg/target/
+/mybatis_parameter/target/
+/mybatis_resultMap/target/
+/untitled/target/
