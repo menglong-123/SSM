@@ -2,27 +2,26 @@ package com.atguigu.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.github.pagehelper.PageInterceptor;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.PathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.stereotype.Controller;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Properties;
+import java.io.IOException;
+import java.util.*;
 
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.yaml.snakeyaml.Yaml;
 
 /**
  * @Author: cml
- * @Description:
+ * @Description: Spring的配置类
  * @Date: 2023/7/8 14:54
  * @Version 1.0
  */
@@ -36,16 +35,15 @@ public class SpringConfig {
 
     @Bean
     // 获取数据源
-    public DruidDataSource getDataSource() throws FileNotFoundException {
-        FileInputStream stream = new FileInputStream("/Users/cuimenglong/Code/Intellij/SSM/ssm/src/main/resources/jdbc.yaml");
+    public DruidDataSource getDataSource() throws IOException {
+        // 获取jdbc.yaml文件内容
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource resource = resolver.getResource("classpath:jdbc.yaml");
         Yaml yaml = new Yaml();
-        Map<String, Map<String, String>> map = yaml.load(stream);
-        System.out.println(map);
+        Map<String, Map<String, String>> map = yaml.load(resource.getInputStream());
+
+        // 设置数据源
         Map<String, String> jdbc = map.get("jdbc");
-        System.out.println(jdbc.get("driver"));
-        System.out.println(jdbc.get("url"));
-        System.out.println(jdbc.get("username"));
-        System.out.println(jdbc.get("password"));
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setDriverClassName(jdbc.get("driver"));
         druidDataSource.setUrl(jdbc.get("url"));
