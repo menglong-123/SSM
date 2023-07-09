@@ -56,25 +56,22 @@ public class SpringConfig {
     }
 
     @Bean
-    // 配置SqlSessionFactoryBean，可以直接在Spring的IOC中获取SqlSessionFactory对象
-    // 用来替代mybatis-config.xml
-    public SqlSessionFactoryBean getSqlSession(DruidDataSource druidDataSource) throws FileNotFoundException {
-        SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
-        // 设置数据源
-        sqlSessionFactory.setDataSource(druidDataSource);
-        // 设置类型别名所对应的包
-        sqlSessionFactory.setTypeAliasesPackage("com.atguigu.pojo");
+    // Spring整合Mybatis的配置
+    public SqlSessionFactory getSessionFactory(DruidDataSource druidDataSource) throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 
-        // 将下划线映射为驼峰
-        Properties properties = new Properties();
-        properties.setProperty("mapUnderscoreToCamelCase", "true");
-        sqlSessionFactory.setConfigurationProperties(properties);
-
-        // 设置映射文件的路径，只有映射文件的包和mapper接口的包不一致时才需要设置
-        // sqlSessionFactory.setMapperLocations();
+        // 设置mybatis分页
         PageInterceptor pageInterceptor = new PageInterceptor();
-        sqlSessionFactory.setPlugins(pageInterceptor);
-        return sqlSessionFactory;
+        sqlSessionFactoryBean.setPlugins(pageInterceptor);
+
+        // 设置数据源
+        sqlSessionFactoryBean.setDataSource(druidDataSource);
+        // 设置下划线到驼峰的映射
+        sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
+        // 设置类型别名所对应的包
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.atguigu.pojo");
+
+        return sqlSessionFactoryBean.getObject();
     }
 
 
