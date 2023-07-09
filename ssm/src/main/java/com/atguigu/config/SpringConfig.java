@@ -72,16 +72,6 @@ public class SpringConfig {
         return sqlSessionFactoryBean.getObject();
     }
 
-
-    @Bean
-    // 配置mapper接口的扫描，可以将指定包下所有的mapper节课，通过SqlSession创建代理实现类对象，并将这些对象交给IOC容器管理
-    public MapperScannerConfigurer getMapperScannerConfigurer(){
-        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setBasePackage("com.atguigu.mapper");
-        mapperScannerConfigurer.setAnnotationClass(org.apache.ibatis.annotations.Mapper.class);
-        return mapperScannerConfigurer;
-    }
-
     @Bean
     // 配置事务管理器
     public DataSourceTransactionManager getDataSourceTransactionManager(DruidDataSource druidDataSource){
