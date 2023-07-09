@@ -2,6 +2,7 @@ package com.atguigu.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.github.pagehelper.PageInterceptor;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -30,7 +31,8 @@ import org.yaml.snakeyaml.Yaml;
 @ComponentScan(basePackages = {"com.atguigu.service"})
 // 开启事务的注解驱动，将使用@Transactional标识的方法或类中的所有方法进行事务管理
 @EnableTransactionManagement
-@MapperScan("com.atguigu.mapper")
+// 配置mapper接口的扫描，可以将指定包下所有的mapper节课，通过SqlSession创建代理实现类对象，并将这些对象交给IOC容器管理
+@MapperScan(value = "com.atguigu.mapper", annotationClass = Mapper.class)
 public class SpringConfig {
 
     @Bean
@@ -69,8 +71,10 @@ public class SpringConfig {
         // 设置类型别名所对应的包
         sqlSessionFactoryBean.setTypeAliasesPackage("com.atguigu.pojo");
 
+
         return sqlSessionFactoryBean.getObject();
     }
+
 
     @Bean
     // 配置事务管理器
